@@ -5,7 +5,9 @@ use Slate\CBL\StudentCompetency;
 use Slate\People\Student;
 use Slate\Courses\Section;
 use Slate\Courses\SectionParticipant;
-
+use Slate\CBL\Tasks\StudentTask;
+use Slate\CBL\Tasks\TaskSkill;
+use Slate\CBL\Tasks\StudentTaskSkill;
 
 $GLOBALS['Session']->requireAccountLevel('Staff');
 
@@ -18,23 +20,11 @@ if ($_POST['submitTranscript']) {
     $studentID = $_POST['studentID'];
     $student = Student::getByID($studentID);
 
-    $studentComps = [];
-    foreach ($competencies as $Competency) {
-        $studentCompetencies = StudentCompetency::getAllByWhere([
-            'StudentID' => $student->ID,
-            'CompetencyID' => $Competency->ID
-        ]);
-        foreach ($studentCompetencies as $StudentCompetency) {
-          $studentComps[] = [
-              'code' => $Competency->Code,
-              'currentLevel' => $StudentCompetency->Level,
-              'created' => $StudentCompetency->Created
-          ];
-        }
-    }
+    $studentComps =getStudentCompetencyData($competencies);
+    
     RequestHandler::respond('baxter/transcript', [
         'student' => $student,
-        'competencies' => $studentComps,
+        'competencies' =>  getStudentCompetencyData($studentCompetencies),
         'renderTranscript' => true
     ]);
 
@@ -46,19 +36,40 @@ if ($_POST['submitTranscript']) {
        'PersonID' => $studentID,
     ]);
 
-    $courseSections = [];
-
+    $courseSectionInfos = [];
     foreach ($sectionParticipants as $SectionParticipant){
         $section = $SectionParticipant->Section;
-        #if($section->TermID == $termID) {
-        $courseSections[] = $section;
-        #}
+        
+        $studentTasks = StudentTask::getAllByWhere([
+            'StudentID' => $studentID,
+            'SectionID' => $SectionParticipant->Section->ID
+        ]);
+        $taskInfos = [];
+        foreach($studentTasks as $StudentTask) {
+            $taskSkills = TaskSkill::getAllByWhere(['TaskID'=> $StudentTask->Task->ID ]);
+            $demonstration = $StudentTask->Demonstration;
+            $taskInfos[] = [ 
+                'id' => $StudentTask->ID,
+                'studentTask' => $studentTask,
+                'demonstration' => $demonstration,
+                'title' =>  $StudentTask->Task->Title,
+                'demonstrationSkills' => $demonstration->Skills,
+                'taskSkills' => $taskSkills     
+            ];
+            
+        }
+        
+        $courseSectionInfos[] = [ 
+            'section' => $section,  
+            'taskInfos' => $taskInfos,
+            'lut' => ['NE','EN','PR','GB','AD','EX']
+        ];
     }
 
 
     RequestHandler::respond('baxter/transcript', [
         'student' => $student,
-        'courseSections' => $courseSections,
+        'courseSectionInfos' => $courseSectionInfos,
         'renderProgress' => true
 
     ]);
@@ -85,4 +96,28 @@ if ($_POST['submitTranscript']) {
     RequestHandler::respond('baxter/transcript', [
         'students' => $transcriptStudents
     ]);
+}
+
+
+function getTasksByCompetency($competency) {
+    
+    
+}
+
+function getStudentCompetencyData($competencies) {
+    $outputCompetencyData = [];
+    foreach ($competencies as $Competency) {
+        $studentCompetencies = StudentCompetency::getAllByWhere([
+            'StudentID' => $student->ID,
+            'CompetencyID' => $Competency->ID
+        ]);
+        foreach ($studentCompetencies as $StudentCompetency) {
+          $outputCompetencies[] = [
+              'code' => $Competency->Code,
+              'currentLevel' => $StudentCompetency->Level,
+              'created' => $StudentCompetency->Created
+          ];
+        }
+    }
+    return $ouputCompetencyData;
 }

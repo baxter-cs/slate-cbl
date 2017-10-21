@@ -1,7 +1,7 @@
 {extends designs/site.tpl}
 
 {block content}
-
+    {assign array ('NE','EN','PR','GB','AD','EX') lookUp}
     {if $renderTranscript}
         <h2>{$student->FullName|escape}</h2>
         {foreach item=Competency from=$competencies}
@@ -14,9 +14,30 @@
 
     {elseif $renderProgress}
         <h2>{$student->FullName|escape}</h2>
-        {foreach item=Section from=$courseSections}
-                <span>{$Section->Title}</span>
+        {foreach item=sectionInfo from=$courseSectionInfos}
+            <div>
+                <h3>{$sectionInfo.section->Title}</h3>
+                <div style="display: flex;">
+                {foreach item=taskInfo from=$sectionInfo.taskInfos}
+                    <div style= "flex: 1;">
+                        <h4>{$taskInfo.title}</h4>
+                            <div style="flex: 1;">
+                            {foreach item=demoSkill from=$taskInfo.demonstrationSkills}
+                                <div style="display: flex">
+                                <div style="flex: 10;">{$demoSkill->Skill->Competency->ContentArea->Title} > 
+                                {$demoSkill->Skill->Competency->Descriptor} > 
+                                 {$demoSkill->Skill->Descriptor}</div>
+                                <div  style="flex: 1;">{$lookUp[$demoSkill->DemonstratedLevel]}</div>
+                                </div>
+                            {/foreach}
+                        </div>
+                    </div>
+                {/foreach}
+
+            
+            </div></div>
         {/foreach}
+        
 
     {else}
         <h3>Generate Transcript</h3>
@@ -29,8 +50,8 @@
                 </select>
             {/capture}
             {labeledField html=$term type=select label=Term class=auto-width}
-
-
+    
+        
             {capture assign=studentsSelect}
                 <select class="field-control inline medium" name="studentID">
                     <option value="">&ndash;select&ndash;</option>
