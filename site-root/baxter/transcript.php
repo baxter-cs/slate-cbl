@@ -45,9 +45,9 @@ if ($_POST['submitTranscript']) {
             'SectionID' => $SectionParticipant->Section->ID
         ]);
         $taskInfos = [];
-        foreach($studentTasks as $StudentTask) {
-            $taskSkills = TaskSkill::getAllByWhere(['TaskID'=> $StudentTask->Task->ID ]);
-            $demonstration = $StudentTask->Demonstration;
+        foreach($studentTasks as $studentTask) {
+            $taskSkills = TaskSkill::getAllByWhere(['TaskID'=> $studentTask->Task->ID ]);
+            $demonstration = $studentTask->Demonstration;
             $taskInfos[] = [ 
                 'id' => $StudentTask->ID,
                 'studentTask' => $studentTask,
