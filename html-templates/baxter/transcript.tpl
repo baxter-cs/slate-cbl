@@ -36,6 +36,7 @@
         {foreach item=sectionInfo from=$courseSectionInfos}
             <div class="section">
                 <h3>{$sectionInfo.section->Title}</h3>
+                <h4>Instructor: {$sectionInfo.section->Teachers[0]->FullName}</h4>
                 <div class="assignment-wrapper">
                     {foreach item=taskInfo from=$sectionInfo.taskInfos}
                         <div class="assignment">
@@ -72,7 +73,7 @@
         <h3>Generate Transcript</h3>
         <form method="POST">
             {capture assign=term}
-                <select class="field-control inline medium" name="term">
+                <select class="field-control inline medium" name="termID">
                     {foreach item=Term from=Slate\Term::getAll(array(order=array(ID=DESC)))}
                         <option value="{$Term->ID|escape}">{$Term->Title|escape}</option>
                     {/foreach}
@@ -85,8 +86,8 @@
                 <select class="field-control inline medium" name="studentID">
                     <option value="">&ndash;select&ndash;</option>
                         <optgroup label="My Sections">
-                            {foreach item=Student from=Emergence\People\Person::getAll(array(order=array(ID=DESC)))}
-                                <option value="{$Student->ID|escape}">{$Student->FullName|escape}</option>
+                            {foreach item=Student from=Emergence\People\Person::getAll(array(order=array(LastName=ASC)))}
+                                <option value="{$Student->ID|escape}">{$Student->LastName|escape}, {$Student->FirstName|escape}</option>
                             {/foreach}
                         </optgroup>
                 </select>

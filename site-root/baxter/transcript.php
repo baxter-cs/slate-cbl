@@ -39,31 +39,33 @@ if ($_POST['submitTranscript']) {
     $courseSectionInfos = [];
     foreach ($sectionParticipants as $SectionParticipant){
         $section = $SectionParticipant->Section;
-        
-        $studentTasks = StudentTask::getAllByWhere([
-            'StudentID' => $studentID,
-            'SectionID' => $SectionParticipant->Section->ID
-        ]);
-        $taskInfos = [];
-        foreach($studentTasks as $studentTask) {
-            $taskSkills = TaskSkill::getAllByWhere(['TaskID'=> $studentTask->Task->ID ]);
-            $demonstration = $studentTask->Demonstration;
-            $taskInfos[] = [ 
-                'id' => $StudentTask->ID,
-                'studentTask' => $studentTask,
-                'demonstration' => $demonstration,
-                'title' =>  $StudentTask->Task->Title,
-                'demonstrationSkills' => $demonstration->Skills,
-                'taskSkills' => $taskSkills     
-            ];
+        if($termID == $section->Term->ID) {
+            $studentTasks = StudentTask::getAllByWhere([
+                'StudentID' => $studentID,
+                'SectionID' => $SectionParticipant->Section->ID
+            ]);
+            $taskInfos = [];
+            foreach($studentTasks as $studentTask) {
+                $taskSkills = TaskSkill::getAllByWhere(['TaskID'=> $studentTask->Task->ID ]);
+                $demonstration = $studentTask->Demonstration;
+                $taskInfos[] = [ 
+                    'id' => $StudentTask->ID,
+                    'studentTask' => $studentTask,
+                    'demonstration' => $demonstration,
+                    'title' =>  $StudentTask->Task->Title,
+                    'demonstrationSkills' => $demonstration->Skills,
+                    'taskSkills' => $taskSkills     
+                ];
+                
+            }
             
+            $courseSectionInfos[] = [ 
+                'section' => $section,  
+                'taskInfos' => $taskInfos,
+                'lut' => ['NE','EN','PR','GB','AD','EX', 'BA']
+            ];
         }
         
-        $courseSectionInfos[] = [ 
-            'section' => $section,  
-            'taskInfos' => $taskInfos,
-            'lut' => ['NE','EN','PR','GB','AD','EX']
-        ];
     }
 
 
