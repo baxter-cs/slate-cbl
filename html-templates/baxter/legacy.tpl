@@ -1,10 +1,18 @@
+<!DOCTYPE html>
 <html>
   <head>
-<link rel="stylesheet" type="text/css" href="style.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    {cssmin "reports/legacy.css" embed=true}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>
+        var currentYearStart = 2017;
+        var studentYear = 4;
+        var STUDENT_START_YEAR = 1;
+
+        var allData = {$data};
+    </script>
     <script src="scripts/app.js"></script>
     </head>
-  <body>
+    <body>
     <div class="page page1">
       
       <div class="infoHeader" id="p1info">

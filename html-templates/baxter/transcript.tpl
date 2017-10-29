@@ -93,9 +93,29 @@
                 </select>
             {/capture}
             {labeledField html=$studentsSelect type=select label=student class=auto-width}
-            <input type="submit" name="submitTranscript" value="Generate Transcript">
+
+            <br/>
             <input type="submit" name="submitProgress" value="Generate Progress Report">
-            </form>
+            <hr/>
+            <div>
+                <h2>Transcripts</h2>
+                <div>
+                    <h3>Paste Transcript JSON Here</h3>
+                    <textarea name="studentData" value=""></textarea>
+                </div>
+                <div>
+                    <h3>Started at Baxter</h3>
+                    <select class="field-control inline medium" name="startYear">
+                        <option value=1>9th</option>
+                        <option value=1>10th</option>
+                        <option value=1>11th</option>
+                        <option value=1>12th</option>
+                    </select>
+                </div>
+                <input type="submit" name="submitTranscript" value="Generate Transcript">
+            </div>
+
+</form>
     {/if}
 
 {/block}

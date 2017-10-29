@@ -1,0 +1,208 @@
+{
+  "Standards" : {
+    "Aesthetics & Meaning" : {
+      "Standard" : "Aesthetics & Meaning",
+      "Department" : "DFE",
+      "Mean" : 2.8,
+      "Median" : 3
+    },
+    "Algebraic Reasoning" : {
+      "Standard" : "Algebraic Reasoning",
+      "Department" : "MATH",
+      "Mean" : 3.3,
+      "Median" : 4
+    },
+    "Analyze and Optimize Solutions" : {
+      "Standard" : "Analyze and Optimize Solutions",
+      "Department" : "DFE",
+      "Mean" : 2.6,
+      "Median" : 3
+    },
+    "CAD" : {
+      "Standard" : "CAD",
+      "Department" : "DFE",
+      "Mean" : 0,
+      "Median" : 0
+    },
+    "Civics & Government" : {
+      "Standard" : "Civics & Government",
+      "Department" : "HUM",
+      "Mean" : 2.3,
+      "Median" : 3
+    },
+    "Climate Change" : {
+      "Standard" : "Climate Change",
+      "Department" : "SCI",
+      "Mean" : 2.1,
+      "Median" : 2
+    },
+    "Computer Science" : {
+      "Standard" : "Computer Science",
+      "Department" : "DFE",
+      "Mean" : 0,
+      "Median" : 0
+    },
+    "Decision-Making and Goal-Setting Skills" : {
+      "Standard" : "Decision-Making and Goal-Setting Skills",
+      "Department" : "OTHER",
+      "Mean" : 0,
+      "Median" : 0
+    },
+    "Define Problems" : {
+      "Standard" : "Define Problems",
+      "Department" : "DFE",
+      "Mean" : 2.7,
+      "Median" : 3
+    },
+    "Design" : {
+      "Standard" : "Design",
+      "Department" : "DFE",
+      "Mean" : 0,
+      "Median" : 0
+    },
+    "Develop Solutions" : {
+      "Standard" : "Develop Solutions",
+      "Department" : "DFE",
+      "Mean" : 2.5,
+      "Median" : 2
+    },
+    "Economics" : {
+      "Standard" : "Economics",
+      "Department" : "HUM",
+      "Mean" : 3.4,
+      "Median" : 4
+    },
+    "Engineering" : {
+      "Standard" : "Engineering",
+      "Department" : "DFE",
+      "Mean" : 0,
+      "Median" : 0
+    },
+    "Fabrication" : {
+      "Standard" : "Fabrication",
+      "Department" : "DFE",
+      "Mean" : 0,
+      "Median" : 0
+    },
+    "Forces and Motion" : {
+      "Standard" : "Forces and Motion",
+      "Department" : "SCI",
+      "Mean" : 2.8,
+      "Median" : 3
+    },
+    "Geometry" : {
+      "Standard" : "Geometry",
+      "Department" : "MATH",
+      "Mean" : 2.6,
+      "Median" : 3
+    },
+    "Health Skills & Concepts" : {
+      "Standard" : "Health Skills & Concepts",
+      "Department" : "OTHER",
+      "Mean" : 2.9,
+      "Median" : 3
+    },
+    "Heredity and Evolution" : {
+      "Standard" : "Heredity and Evolution",
+      "Department" : "SCI",
+      "Mean" : 2.7,
+      "Median" : 3
+    },
+    "Historical Context" : {
+      "Standard" : "Historical Context",
+      "Department" : "HUM",
+      "Mean" : 2.8,
+      "Median" : 3
+    },
+    "Interpersonal Communication" : {
+      "Standard" : "Interpersonal Communication",
+      "Department" : "WL",
+      "Mean" : 2.8,
+      "Median" : 3
+    },
+    "Interpretive Communication" : {
+      "Standard" : "Interpretive Communication",
+      "Department" : "WL",
+      "Mean" : 2.7,
+      "Median" : 3
+    },
+    "Matter and Energy" : {
+      "Standard" : "Matter and Energy",
+      "Department" : "SCI",
+      "Mean" : 2.4,
+      "Median" : 3
+    },
+    "Music" : {
+      "Standard" : "Music",
+      "Department" : "DFE",
+      "Mean" : 0,
+      "Median" : 0
+    },
+    "Number and Quantity" : {
+      "Standard" : "Number and Quantity",
+      "Department" : "MATH",
+      "Mean" : 3,
+      "Median" : 3
+    },
+    "Physical Fitness Activities and Knowledge" : {
+      "Standard" : "Physical Fitness Activities and Knowledge",
+      "Department" : "OTHER",
+      "Mean" : 3,
+      "Median" : 3
+    },
+    "Presentational Communication" : {
+      "Standard" : "Presentational Communication",
+      "Department" : "WL",
+      "Mean" : 3.3,
+      "Median" : 4
+    },
+    "Reading" : {
+      "Standard" : "Reading",
+      "Department" : "HUM",
+      "Mean" : 2.6,
+      "Median" : 3
+    },
+    "Research" : {
+      "Standard" : "Research",
+      "Department" : "HUM",
+      "Mean" : 2.4,
+      "Median" : 3
+    },
+    "Science and Math Practices" : {
+      "Standard" : "Science and Math Practices",
+      "Department" : "SCI",
+      "Mean" : 2.5,
+      "Median" : 3
+    },
+    "Speaking & Listening" : {
+      "Standard" : "Speaking & Listening",
+      "Department" : "HUM",
+      "Mean" : 2.3,
+      "Median" : 3
+    },
+    "Statistics and Probability" : {
+      "Standard" : "Statistics and Probability",
+      "Department" : "MATH",
+      "Mean" : 2.7,
+      "Median" : 2
+    },
+    "Theater" : {
+      "Standard" : "Theater",
+      "Department" : "DFE",
+      "Mean" : 0,
+      "Median" : 0
+    },
+    "Visual Arts" : {
+      "Standard" : "Visual Arts",
+      "Department" : "DFE",
+      "Mean" : 0,
+      "Median" : 0
+    },
+    "Writing" : {
+      "Standard" : "Writing",
+      "Department" : "HUM",
+      "Mean" : 2.4,
+      "Median" : 3
+    }
+  }
+}

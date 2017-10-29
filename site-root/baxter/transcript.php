@@ -18,13 +18,15 @@ $transcriptStudents = [];
 $i = 0;
 if ($_POST['submitTranscript']) {
     $studentID = $_POST['studentID'];
+    $studentData = $_POST['studentData'];
     $student = Student::getByID($studentID);
 
     $studentComps =getStudentCompetencyData($competencies);
     
-    RequestHandler::respond('baxter/transcript', [
+    RequestHandler::respond('baxter/legacy', [
         'student' => $student,
-        'competencies' =>  getStudentCompetencyData($studentCompetencies),
+        'data' =>$studentData,
+        'startYear' => $_POST['startYear'],
         'renderTranscript' => true
     ]);
 
