@@ -162,12 +162,14 @@ function RenderReportCard() {
                         'demonstrated' => $earnedDate
                     ];
                 }
-                $levels[$StudentCompetency->Level - 1] = [
-                    'level' => $StudentCompetency->Level,
-                    'renderLevel' => $lut[$StudentCompetency->Level],
-                    'created' => $StudentCompetency->Created,
-                    'skillLevels' => $skillLevels,
-                  ];
+                if($StudentCompetency->Level < 7) {
+                    $levels[$StudentCompetency->Level - 1] = [
+                        'level' => $StudentCompetency->Level,
+                        'renderLevel' => $lut[$StudentCompetency->Level],
+                        'created' => $StudentCompetency->Created,
+                        'skillLevels' => $skillLevels,
+                      ];
+                }
             }
             
             $competencies[] = [
@@ -188,7 +190,7 @@ function RenderReportCard() {
 
     $student = [
         'lastName' => $Student->LastName,
-        'firstName' => $Student->LastName,
+        'firstName' => $Student->FirstName,
         'id' => $Student->ID,        
     ];
     RequestHandler::respond('baxter/reportcard', [

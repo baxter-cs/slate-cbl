@@ -4,7 +4,15 @@ function makeStudentReportVue(student, contentAreas){
         el: "#report-panel",
         data: {
             student: student,
-            contentAreas: contentAreas
+            contentAreas: contentAreas,
+            headerLevels: [
+              "Entering (EN)",  
+              "Progressing (PR)",  
+              "Grad. Benchmark (GB)",  
+              "Advancing (AD)",  
+              "Excelling (EX)",
+              "Beyond Assessment"
+            ],
         },
         methods: {
             standardLevelString: function(levelNum){

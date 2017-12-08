@@ -21,8 +21,8 @@
         }
 
         .content-area-title{
-            margin: 0.5em;
-            font-size: 20pt;
+            margin: 0.2em;
+            font-size: 12pt;
         }
 
         .competencies{
@@ -36,10 +36,11 @@
             text-align: center;
             background-color: #DDD;
             font-size: 10pt;
+            width: 1in;
 
         }
 
-        .competency{
+        .competency, .competency-header{
             margin: 2px;
             padding: 2px;
             display: flex;
@@ -49,11 +50,19 @@
 
         }
 
+        .competency-header .level{
+            border: 1px solid white;
+            text-transform: uppercase;
+            background-color: #eee;
+        }       
 
-        .competency * {
-            flex: 1;
+
+        .competency-header .indicator{
+            min-height: auto;
+            min-width: auto;
         }
         .level{
+            flex: 1;
             display: flex;
             flex-wrap: wrap;
             border: 2px dotted rgba(0,0,0,0.2);
@@ -100,38 +109,36 @@
     
     </head>
     <body>
-      <div class="infoHeader" id="p1info">
-        <div class="logo"><img src="images/logo.png"/></div>
-        <div class="infoFlex">
-          <div class="infoLine"><div class="infoLabel">Name</div>
-            <div id="studentName" class="info" v-html="student.firstName"></div>
-          </div>
-          <div class="infoLine"><div class="infoLabel">Address</div>
-            <div id="studentAddress" class="info"></div>
-          </div>
-          <div class="infoLine"><div class="infoLabel">Birthdate</div><div id="studentBirthdate" class="info"></div></div>
-          <div class="infoLine"><div class="infoLabel">Graduation</div><div id="graduationDate" class="info"></div></div>
-        </div>
-      </div>
 
     
-    </div>
-    <div id="report-panel" class="main-grid">
-        <div class="content-area" v-for="contentArea in contentAreas">
-            <div class="content-area-title" v-html="contentArea.title"></div>
-            <div class="competencies">
-                <div class="competency" v-for="competency in contentArea.competencies">
-                    <div class="competency-title" v-html="competency.title"></div>
-                    <div class="level" v-for="level in competency.levels">
+    <div id="report-panel">
+            <div id="studentName" class="info" v-html="student.lastName + ', ' + student.firstName"></div>
+        <div class="main-grid">
+            <div class="content-area" v-for="contentArea in contentAreas">
+                <div class="content-area-title" v-html="contentArea.title"></div>
+                <div class="competencies">
+                    <div class="competency-header">
+                        <div class="competency-title">Standards</div>
+                        <div class="level" v-for="level in headerLevels">
+                            <div class="indicator" v-html="level">
+                            
+                            </div>
+                        </div>
+                    </div>
 
-                        <div class="indicator" v-for="skillLevel in level.skillLevels">
-                            <div v-html="standardLevelString(skillLevel.highestLevel)"></div>
-                                <div v-html="shortDate(new Date(skillLevel.demonstrated))"></div>
+                    <div class="competency" v-for="competency in contentArea.competencies">
+                        <div class="competency-title" v-html="competency.title"></div>
+                        <div class="level" v-for="level in competency.levels">
+    
+                            <div class="indicator" v-for="skillLevel in level.skillLevels">
+                                <div v-html="standardLevelString(skillLevel.highestLevel)"></div>
+                                    <div v-html="shortDate(new Date(skillLevel.demonstrated))"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
+    
             </div>
-
         </div>
     </div>
 
