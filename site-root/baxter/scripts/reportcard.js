@@ -17,6 +17,9 @@ function makeStudentReportVue(student, contentAreas){
                 } else { 
                     return lut[Math.floor(levelNum)];                    
                 }
+            },
+            shortDate: function(date){
+                return (date.getMonth() + 1) + "/" + (date.getFullYear() % 100);
             }
         }
     });

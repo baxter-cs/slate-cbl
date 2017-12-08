@@ -127,14 +127,14 @@ function RenderReportCard() {
                 'CompetencyID' => $Competency->ID
             ]);
             
-            $studentCompetencyViews = [];
+            $levels = [[],[],[],[],[],[]];
             $maxLevel = 0;
             foreach ($studentCompetencies as $StudentCompetency) {
                 if ($maxLevel < $StudentCompetency->Level){
                     $maxLevel = $StudentCompetency->Level;
                 }
                 $demos = $StudentCompetency->getDemonstrationData();
-                $levels = [];
+                $skillLevels = [];
                 $targetLevel = 0;
                 $count = 0;
                 foreach($demos as $demoSkills){
@@ -155,18 +155,18 @@ function RenderReportCard() {
                         $count++;
 
                     }
-                    $levels[] = [
+                    $skillLevels[] = [
                         'targetLevel' => $demoSkill["TargetLevel"],
                         'highestLevel' => $demoSkill["DemonstratedLevel"],
                         'demonstrationCount' => $count,
                         'demonstrated' => $earnedDate
                     ];
                 }
-                $studentCompetencyViews[] = [
+                $levels[$StudentCompetency->Level - 1] = [
                     'level' => $StudentCompetency->Level,
                     'renderLevel' => $lut[$StudentCompetency->Level],
                     'created' => $StudentCompetency->Created,
-                    'levels' => $levels,
+                    'skillLevels' => $skillLevels,
                   ];
             }
             
@@ -176,7 +176,7 @@ function RenderReportCard() {
                 'level' => $maxLevel,
                 'renderLevel' => $lut[$maxLevel],
                 
-                'studentCompetencies' => $studentCompetencyViews
+                'levels' => $levels
             ];
         }
         
