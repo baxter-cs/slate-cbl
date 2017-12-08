@@ -2,6 +2,7 @@
 
 use Slate\CBL\Competency;
 use Slate\CBL\StudentCompetency;
+use Slate\CBL\ContentArea;
 use Slate\People\Student;
 use Slate\Courses\Section;
 use Slate\Courses\SectionParticipant;
@@ -12,25 +13,27 @@ use Slate\CBL\Tasks\StudentTaskSkill;
 $GLOBALS['Session']->requireAccountLevel('Staff');
 
 
-$competencies = Competency::getAll();
 
 $transcriptStudents = [];
 $i = 0;
+
 if ($_POST['submitTranscript']) {
     $studentID = $_POST['studentID'];
     $studentData = $_POST['studentData'];
     $student = Student::getByID($studentID);
 
-    $studentComps =getStudentCompetencyData($competencies);
-    
     RequestHandler::respond('baxter/legacy', [
         'student' => $student,
         'data' =>$studentData,
         'startYear' => $_POST['startYear'],
         'renderTranscript' => true
     ]);
+} elseif ($_POST['submitReportCard']) {
 
+    RenderReportCard();
+    
 } elseif ($_POST['submitProgress']) {
+    $competencies = Competency::getAll();
     $studentID = $_POST['studentID'];
     $termID = $_POST['termID'];
     $student = Student::getByID($studentID);
@@ -50,24 +53,24 @@ if ($_POST['submitTranscript']) {
             foreach($studentTasks as $studentTask) {
                 $taskSkills = TaskSkill::getAllByWhere(['TaskID'=> $studentTask->Task->ID ]);
                 $demonstration = $studentTask->Demonstration;
-                $taskInfos[] = [ 
+                $taskInfos[] = [
                     'id' => $StudentTask->ID,
                     'studentTask' => $studentTask,
                     'demonstration' => $demonstration,
                     'title' =>  $StudentTask->Task->Title,
                     'demonstrationSkills' => $demonstration->Skills,
-                    'taskSkills' => $taskSkills     
+                    'taskSkills' => $taskSkills
                 ];
-                
+
             }
-            
-            $courseSectionInfos[] = [ 
-                'section' => $section,  
+
+            $courseSectionInfos[] = [
+                'section' => $section,
                 'taskInfos' => $taskInfos,
                 'lut' => ['NE','EN','PR','GB','AD','EX', 'BA']
             ];
         }
-        
+
     }
 
 
@@ -103,25 +106,52 @@ if ($_POST['submitTranscript']) {
 }
 
 
-function getTasksByCompetency($competency) {
-    
-    
+function getTasksByCompetency() {
+
 }
 
-function getStudentCompetencyData($competencies) {
-    $outputCompetencyData = [];
-    foreach ($competencies as $Competency) {
-        $studentCompetencies = StudentCompetency::getAllByWhere([
-            'StudentID' => $student->ID,
-            'CompetencyID' => $Competency->ID
-        ]);
-        foreach ($studentCompetencies as $StudentCompetency) {
-          $outputCompetencies[] = [
-              'code' => $Competency->Code,
-              'currentLevel' => $StudentCompetency->Level,
-              'created' => $StudentCompetency->Created
-          ];
+
+function RenderReportCard() {
+    
+    $studentID = $_POST['studentID'];
+    $studentData = $_POST['studentData'];
+    $Student = Student::getByID($studentID);
+    $contentAreas = [];
+    foreach(ContentArea::getAll() as $ContentArea) {
+        $competencies = [];
+        foreach ($ContentArea->Competencies as $Competency) {
+            $studentCompetencies = StudentCompetency::getAllByWhere([
+                'StudentID' => $student->ID,
+                'CompetencyID' => $Competency->ID
+            ]);
+            
+            $studentCompetencies = [];
+            foreach ($studentCompetencies as $StudentCompetency) {
+              $studentCompetencies[] = [
+                  'currentLevel' => $StudentCompetency->Level,
+                  'created' => $StudentCompetency->Created
+              ];
+            }
+            $competencies[] = [
+                'title' => $Competency->Descriptor,    
+                'code' => $Competency->Code,
+                'studentCompetencies' => $studentCompetencies
+            ];
         }
+        $contentAreas[] = [
+            'title' => $ContentArea->Title,
+            'competencies' => $competencies
+        ];        
     }
-    return $ouputCompetencyData;
+
+    $student = [
+        'lastName' => $Student->LastName,
+        'firstName' => $Student->LastName,
+        'id' => $Student->ID,        
+    ];
+    RequestHandler::respond('baxter/reportcard', [
+      'student' => $student,
+      'contentAreas' => $contentAreas,
+    ]);
+
 }

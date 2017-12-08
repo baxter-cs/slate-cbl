@@ -26,7 +26,7 @@
                     <span>{$Competency.code}</span>
                     <span>{$Competency.currentLevel}</span>
                 </div>
-    
+
             {/foreach}
         </div>
 
@@ -50,7 +50,7 @@
                                 <div class="header">Indicators</div>
                                 {foreach item=demoSkill from=$taskInfo.demonstrationSkills}
                                     <div class="indicator">
-                                    <div class="description">{$demoSkill->Skill->Competency->Descriptor} > 
+                                    <div class="description">{$demoSkill->Skill->Competency->Descriptor} >
                                      {$demoSkill->Skill->Descriptor}</div>
                                     <div  class="rating">{$lookUp[$demoSkill->DemonstratedLevel]}</div>
                                     </div>
@@ -61,13 +61,13 @@
                                 {foreach item=comment from=$taskInfo.studentTask->Comments}
                                     <div class="comment">{date_format $comment->Created}: {$comment->Message}</div>
                                 {/foreach}
-                            </div>                            
+                            </div>
                         </div>
-                    {/foreach}            
+                    {/foreach}
                 </div>
             </div>
         {/foreach}
-        
+
 
     {else}
         <h3>Generate Transcript</h3>
@@ -80,8 +80,8 @@
                 </select>
             {/capture}
             {labeledField html=$term type=select label=Term class=auto-width}
-    
-        
+
+
             {capture assign=studentsSelect}
                 <select class="field-control inline medium" name="studentID">
                     <option value="">&ndash;select&ndash;</option>
@@ -96,6 +96,7 @@
 
             <br/>
             <input type="submit" name="submitProgress" value="Generate Progress Report">
+            <input type="submit" name="submitReportCard" value="Generate Report Card">
             <hr/>
             <div>
                 <h2>Transcripts</h2>
@@ -114,6 +115,7 @@
                 </div>
                 <input type="submit" name="submitTranscript" value="Generate Transcript">
             </div>
+            <div>
 
 </form>
     {/if}
