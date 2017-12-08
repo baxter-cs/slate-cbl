@@ -31,7 +31,7 @@ if ($_POST['submitTranscript']) {
 } elseif ($_POST['submitReportCard']) {
 
     RenderReportCard();
-    
+
 } elseif ($_POST['submitProgress']) {
     $competencies = Competency::getAll();
     $studentID = $_POST['studentID'];
@@ -112,10 +112,11 @@ function getTasksByCompetency() {
 
 
 function RenderReportCard() {
-    
+
     $studentID = $_POST['studentID'];
     $studentData = $_POST['studentData'];
     $Student = Student::getByID($studentID);
+
     $contentAreas = [];
     foreach(ContentArea::getAll() as $ContentArea) {
         $competencies = [];
@@ -124,7 +125,7 @@ function RenderReportCard() {
                 'StudentID' => $student->ID,
                 'CompetencyID' => $Competency->ID
             ]);
-            
+
             $studentCompetencies = [];
             foreach ($studentCompetencies as $StudentCompetency) {
               $studentCompetencies[] = [
@@ -133,7 +134,7 @@ function RenderReportCard() {
               ];
             }
             $competencies[] = [
-                'title' => $Competency->Descriptor,    
+                'title' => $Competency->Descriptor,
                 'code' => $Competency->Code,
                 'studentCompetencies' => $studentCompetencies
             ];
@@ -141,13 +142,13 @@ function RenderReportCard() {
         $contentAreas[] = [
             'title' => $ContentArea->Title,
             'competencies' => $competencies
-        ];        
+        ];
     }
 
     $student = [
         'lastName' => $Student->LastName,
         'firstName' => $Student->LastName,
-        'id' => $Student->ID,        
+        'id' => $StudentID,
     ];
     RequestHandler::respond('baxter/reportcard', [
       'student' => $student,
