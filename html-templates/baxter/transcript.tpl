@@ -107,9 +107,9 @@
                     <h3>Started at Baxter</h3>
                     <select class="field-control inline medium" name="startYear">
                         <option value=1>9th</option>
-                        <option value=1>10th</option>
-                        <option value=1>11th</option>
-                        <option value=1>12th</option>
+                        <option value=2>10th</option>
+                        <option value=3>11th</option>
+                        <option value=4>12th</option>
                     </select>
                 </div>
                 <input type="submit" name="submitTranscript" value="Generate Transcript">
