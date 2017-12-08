@@ -21,7 +21,7 @@
         </div>
       </div>
 
-    
+
     </div>
     <div id="report-panel">
         <div v-for="contentArea in contentAreas">
@@ -36,11 +36,6 @@
 
     <script src="scripts/reportcard.js"></script>
     <script>
-        var currentYearStart = 2017;
-        var studentYear = 4;
-        var STUDENT_START_YEAR = 1;
-
-
         var student = {json_encode($student)};
         var contentAreas = {json_encode($contentAreas)};
         var reportVue = makeStudentReportVue(student, contentAreas);
