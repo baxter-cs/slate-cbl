@@ -14,10 +14,11 @@
 
         .content-area{
             justify-content: space-between;
-            border: 1px solid black;
+            border: 3px solid black;
             border-radius: 2em;
             padding: 1em;
             margin: 0.5em;
+            background-color: #EFEFFF;
         }
 
         .content-area-title{
@@ -99,10 +100,45 @@
 
         .indicator:hover{
             transform: scaleX(2) scaleY(2);
+            box-shadow: 2px 2px 4px #333;
             transition: all 0.2s;
         }
 
         
+        .level-1{
+            color: magenta;
+        }
+
+        .level-2{
+            color: orange;
+        }
+        .level-3{
+            color: green;
+        }
+        .level-4{
+            color: blue;
+        }
+        .level-5{
+            color: purple;
+        }
+
+
+        .year15, .year16, .year17{
+
+        }
+        .year15{
+            color: red;
+
+        }
+        .year16{
+            color: green;
+        }
+        .year17{
+            color: blue;
+        }
+        .year18{
+
+        }        
 
 
 </style>
@@ -112,7 +148,7 @@
 
     
     <div id="report-panel">
-            <div id="studentName" class="info" v-html="student.lastName + ', ' + student.firstName"></div>
+        <div id="studentName" class="info" v-html="student.lastName + ', ' + student.firstName"></div>
         <div class="main-grid">
             <div class="content-area" v-for="contentArea in contentAreas">
                 <div class="content-area-title" v-html="contentArea.title"></div>
@@ -129,19 +165,24 @@
                     <div class="competency" v-for="competency in contentArea.competencies">
                         <div class="competency-title" v-html="competency.title"></div>
                         <div class="level" v-for="level in competency.levels">
-    
-                            <div class="indicator" v-for="skillLevel in level.skillLevels">
-                                <div v-html="standardLevelString(skillLevel.highestLevel)"></div>
-                                    <div v-html="shortDate(new Date(skillLevel.demonstrated))"></div>
+                            <div v-html="level.skills"></div>
+                            <div class="indicator" v-for="skill in level">
+                                <div :class="'level-' + skill.demonstratedLevel">
+                                    <!--div v-html="schoolYear(new Date(skill.demonstrated))"></div-->
+                                    <div v-html="standardLevelString(skill.demonstratedLevel)"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-    
+            </div>
+            <div v-for = "section in sections">
+                <div v-html="section.title"></div>
+                <div v-html="section.teacher"></div>
             </div>
         </div>
     </div>
-
+</div>
 
     <script src="scripts/reportcard.js"></script>
     <script>
@@ -150,8 +191,9 @@
         var STUDENT_START_YEAR = 1;
         {json_encode($completion)};
         var student = {json_encode($student)};
+        var sections = {json_encode($sections)};
         var contentAreas = {json_encode($contentAreas)};
-        var reportVue = makeStudentReportVue(student, contentAreas);
+        var reportVue = makeStudentReportVue(student, sections, contentAreas);
     </script>
 
   </body>

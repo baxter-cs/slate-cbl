@@ -126,50 +126,42 @@ function RenderReportCard() {
                 'StudentID' => $Student->ID,
                 'CompetencyID' => $Competency->ID
             ]);
-            
-            $levels = [[],[],[],[],[],[]];
+            $skills = [];
             $maxLevel = 0;
             foreach ($studentCompetencies as $StudentCompetency) {
                 if ($maxLevel < $StudentCompetency->Level){
                     $maxLevel = $StudentCompetency->Level;
                 }
                 $demos = $StudentCompetency->getDemonstrationData();
-                $skillLevels = [];
                 $targetLevel = 0;
                 $count = 0;
                 foreach($demos as $demoSkills){
-                    $lastDemoDate = 0;
-                    $highDemoLevel = 0;
-                    $skillName = "";
+                    $skill = Skill::GetByID($demoSkill["SkillID"]);
+                    //echo(json_encode($demoSkills));
                     foreach($demoSkills as $demoSkill) {
-                        //echo(json_encode($demoSkill));
                         $targetLevel = $demoSkill["TargetLevel"];
                         $earnedDate = $demoSkill["DemonstrationDate"];
                         $demoLevel = $demoSkill["DemonstratedLevel"];
-                        if($demoLevel > $highDemoLevel){
-                            $highDemoLevel = $demoLevel;
-                        }
-                        if ($earnedDate > $lastDemoDate){
-                            $lastDemoDate = $earnedDate;                          
-                        }
                         $count++;
-
+                        $skills[] = [
+                            'targetLevel' => $demoSkill["TargetLevel"],
+                            'demonstratedLevel' => $demoSkill["DemonstratedLevel"],
+                            'ID' => $demoSkill["SkillID"],
+                            'demonstrationCount' => $count,
+                            'demonstrated' => $earnedDate
+                        ];
                     }
-                    $skillLevels[] = [
-                        'targetLevel' => $demoSkill["TargetLevel"],
-                        'highestLevel' => $demoSkill["DemonstratedLevel"],
-                        'demonstrationCount' => $count,
-                        'demonstrated' => $earnedDate
-                    ];
+
                 }
+                /*
                 if($StudentCompetency->Level < 7) {
                     $levels[$StudentCompetency->Level - 1] = [
                         'level' => $StudentCompetency->Level,
                         'renderLevel' => $lut[$StudentCompetency->Level],
                         'created' => $StudentCompetency->Created,
-                        'skillLevels' => $skillLevels,
+                        'skills' => $skills,
                       ];
-                }
+                }*/
             }
             
             $competencies[] = [
@@ -177,8 +169,7 @@ function RenderReportCard() {
                 'code' => $Competency->Code,
                 'level' => $maxLevel,
                 'renderLevel' => $lut[$maxLevel],
-                
-                'levels' => $levels
+                'skills' => $skills
             ];
         }
         
@@ -187,6 +178,40 @@ function RenderReportCard() {
             'competencies' => $competencies
         ];        
     }
+    
+    
+    $sectionParticipants = SectionParticipant::getAllByWhere([
+       'PersonID' => $studentID,
+    ]);
+
+    $sectionInfos = [];
+    foreach ($sectionParticipants as $SectionParticipant){
+        $section = $SectionParticipant->Section;
+        if($termID == $section->Term->ID) {
+            $studentTasks = StudentTask::getAllByWhere([
+                'StudentID' => $studentID,
+                'SectionID' => $SectionParticipant->Section->ID
+            ]);
+            $taskInfos = [];
+            foreach($studentTasks as $studentTask) {
+                $taskSkills = TaskSkill::getAllByWhere(['TaskID'=> $studentTask->Task->ID ]);
+                $demonstration = $studentTask->Demonstration;
+                $taskInfos[] = [
+                    'demonstrationSkills' => $demonstration->Skills,
+                ];
+
+            }
+
+            $sectionInfos[] = [
+                'title' => $section->Title,
+                'teacher' => $section->Teacher->FullName,
+            ];
+        }
+
+    }
+    
+    
+    
 
     $student = [
         'lastName' => $Student->LastName,
@@ -194,6 +219,7 @@ function RenderReportCard() {
         'id' => $Student->ID,        
     ];
     RequestHandler::respond('baxter/reportcard', [
+      'sections' => $sectionInfos,
       'student' => $student,
       'contentAreas' => $contentAreas,
     ]);
