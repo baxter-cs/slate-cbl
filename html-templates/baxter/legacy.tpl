@@ -4,9 +4,9 @@
     {cssmin "reports/legacy.css" embed=true}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script>
-        var currentYearStart = 2017;
-        var studentYear = 4;
-        var STUDENT_START_YEAR = 1;
+        var currentYearStart = {$currentYear};
+        var studentYear = {$studentYear};
+        var STUDENT_START_YEAR = {$startYear};
 
         var allData = {$data};
     </script>

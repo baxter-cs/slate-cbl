@@ -107,12 +107,21 @@
                 <div>
                     <h3>Started at Baxter</h3>
                     <select class="field-control inline medium" name="startYear">
-                        <option value=1>9th</option>
+                        <option selected value=1>9th</option>
                         <option value=2>10th</option>
                         <option value=3>11th</option>
                         <option value=4>12th</option>
                     </select>
-                </div>
+                    <h3>Current Grade</h3>
+                    <select class="field-control inline medium" name="studentYear">
+                        <option selected value=4>12th</option>
+                        <option value=3>11th</option>
+                        <option value=2>10th</option>
+                        <option value=1>9th</option>
+                    </select>
+
+                </div>  
+                <div>Reference Academic Year (beginning year only): <input name="currentYear" value="2017"></div>
                 <input type="submit" name="submitTranscript" value="Generate Transcript">
             </div>
             <div>

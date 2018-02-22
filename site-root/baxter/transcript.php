@@ -25,7 +25,9 @@ if ($_POST['submitTranscript']) {
     RequestHandler::respond('baxter/legacy', [
         'student' => $student,
         'data' =>$studentData,
+        'studentYear' => $_POST['studentYear'],
         'startYear' => $_POST['startYear'],
+        'currentYear' => $_POST['currentYear'],
         'renderTranscript' => true
     ]);
 } elseif ($_POST['submitReportCard']) {
