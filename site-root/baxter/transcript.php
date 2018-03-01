@@ -10,14 +10,15 @@ use Slate\Courses\SectionParticipant;
 use Slate\CBL\Tasks\StudentTask;
 use Slate\CBL\Tasks\TaskSkill;
 use Slate\CBL\Tasks\StudentTaskSkill;
+use Emergence\People\GuardianRelationship;
 
-$GLOBALS['Session']->requireAccountLevel('Staff');
 
 
 $transcriptStudents = [];
 $i = 0;
 
 if ($_POST['submitTranscript']) {
+    $GLOBALS['Session']->requireAccountLevel('Staff');
     $studentID = $_POST['studentID'];
     $studentData = $_POST['studentData'];
     $student = Student::getByID($studentID);
@@ -32,9 +33,14 @@ if ($_POST['submitTranscript']) {
     ]);
 } elseif ($_POST['submitReportCard']) {
 
-    RenderReportCard();
+    RenderReportCard($_POST['studentID']);    
+} elseif ($_GET['studentID']) {
+
+    RenderReportCard($_GET['studentID']);
     
 } elseif ($_POST['submitProgress']) {
+    $GLOBALS['Session']->requireAccountLevel('Staff');
+
     $competencies = Competency::getAll();
     $studentID = $_POST['studentID'];
     $termID = $_POST['termID'];
@@ -84,6 +90,8 @@ if ($_POST['submitTranscript']) {
     ]);
 
 }  else {
+    $GLOBALS['Session']->requireAccountLevel('Staff');
+
     $students = Student::getAllByWhere([
         'Class' => Student::class
     ]);
@@ -108,17 +116,31 @@ if ($_POST['submitTranscript']) {
 }
 
 
-function getTasksByCompetency() {
+function RenderReportCard($studentID) {
 
-}
-
-
-function RenderReportCard() {
-    $lut =  array('NE','EN','PR','GB','AD','EX', 'BA');
-    
-    $studentID = $_POST['studentID'];
-    $studentData = $_POST['studentData'];
     $Student = Student::getByID($studentID);
+    $userIsStaff = $GLOBALS['Session']->hasAccountLevel('Staff');
+    $GuardianRelationship = \Emergence\People\GuardianRelationship::getByWhere([
+        'PersonID' => $Student->ID,
+        'RelatedPersonID' => $GLOBALS['Session']->PersonID
+    ]);
+
+
+    if (
+        !$GLOBALS['Session']->hasAccountLevel('Staff') &&
+        $Student->ID != $GLOBALS['Session']->PersonID &&
+        !$GuardianRelationship = GuardianRelationship::getByWhere([
+            'Class' => GuardianRelationship::class,
+            'PersonID' => $Student->ID,
+            'RelatedPersonID' => $GLOBALS['Session']->PersonID,
+        ])
+    ) {
+        return RequestHandler::throwUnauthorizedError('Only staff and guardians may browse others\' records');
+    }
+
+    
+    
+    $lut =  array('NE','EN','PR','GB','AD','EX', 'BA');
     $contentAreas = [];
     foreach(ContentArea::getAll() as $ContentArea) {
         

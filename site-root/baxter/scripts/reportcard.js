@@ -50,6 +50,13 @@ function makeStudentReportVue(student, sections, contentAreas){
               //"Excelling",
               //"Beyond Assessment"
             ],
+            contentLevels: [
+                { name: "Entering", shortName: "EN", number: 1 },
+                { name: "Progressing", shortName: "PR", number: 2 },
+                { name: "Graduation Benchmark", shortName: "GB", number: 3 },
+                { name: "Advancing", shortName: "AD", number: 4 },
+                { name: "Excelling", shortName: "EX", number: 5 },
+            ]
         },
         methods: {
             
