@@ -34,7 +34,6 @@ if ($_POST['submitTranscript']) {
     ]);
 } elseif ($_POST['submitReportCard']) {
 
-    RenderReportCard();
     RenderReportCard($_POST['studentID']);    
 } elseif ($_GET['studentID']) {
 
