@@ -9,21 +9,18 @@
         .main-grid{
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            grid-template-rows: repeat(5, minmax(1fr, 2fr));
         }
 
         .content-area{
             justify-content: space-between;
-            border: 3px solid black;
-            border-radius: 2em;
             padding: 1em;
             margin: 0.5em;
-            background-color: #EFEFFF;
         }
 
         .content-area-title{
             margin: 0.2em;
-            font-size: 12pt;
+            font-size: 24pt;
+            text-decoration: underline;
         }
 
         .competencies{
@@ -37,16 +34,16 @@
             text-align: center;
             background-color: #DDD;
             font-size: 10pt;
-            width: 1in;
+            min-width: 215px;
 
         }
 
         .competency, .competency-header{
             margin: 2px;
             padding: 2px;
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             flex: 1;
-            flex-direction: row;
             background-color: #CCC;
 
         }
@@ -80,7 +77,6 @@
             left: 5px;
             font-size:10;
             
-            border-radius: 50%;
             background-color: #FFF;
         }
 
@@ -104,22 +100,43 @@
             transition: all 0.2s;
         }
 
-        
+        .level-boxes {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            width: 2fr;
+        }
+
+        .level-box{
+            flex: 1;
+            color: white;
+        }
+        .level-box > .level-text{
+            padding: 0.2em;
+            margin: 0.1em;
+            display: flex;
+            justify-content: center;
+            
+        }
+
+        .level-text.disabled{
+            font-variant: italics;
+            color: #EAEAEA;
+        }
         .level-1{
-            color: magenta;
+            background-color: magenta;
         }
 
         .level-2{
-            color: orange;
+            background-color: orange;
         }
         .level-3{
-            color: green;
+            background-color: green;
         }
         .level-4{
-            color: blue;
+            background-color: blue;
         }
         .level-5{
-            color: purple;
+            background-color: purple;
         }
 
 
@@ -153,24 +170,22 @@
             <div class="content-area" v-for="contentArea in contentAreas">
                 <div class="content-area-title" v-html="contentArea.title"></div>
                 <div class="competencies">
-                    <div class="competency-header">
-                        <div class="competency-title">Standards</div>
-                        <div class="level" v-for="level in headerLevels">
-                            <div class="indicator" v-html="level">
-                            
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="competency" v-for="competency in contentArea.competencies">
                         <div class="competency-title" v-html="competency.title"></div>
-                        <div class="level" v-for="level in competency.levels">
-                            <div v-html="level.skills"></div>
-                            <div class="indicator" v-for="skill in level">
-                                <div :class="'level-' + skill.demonstratedLevel">
-                                    <!--div v-html="schoolYear(new Date(skill.demonstrated))"></div-->
-                                    <div v-html="standardLevelString(skill.demonstratedLevel)"></div>
+                        <div class="level-boxes">
+                            <div class="level-box" v-for="level in contentLevels">
+                                <div v-if="level.number < competency.level" :class="'level-' + level.number" class="level-text" >
+                                    <div v-html="level.shortName"></div>
                                 </div>
+                                <div v-else class="level-text disabled">
+                                    <div v-html="level.shortName"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="indicator-box">
+                            <div v-for="skill in competency.skills">
+                                <div v-html="skill.demonstratedLevel"></div>
                             </div>
                         </div>
                     </div>
